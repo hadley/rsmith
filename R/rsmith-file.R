@@ -10,10 +10,10 @@ read_file_with_metadata <- function(path) {
     metadata <- list()
     contents <- text
   } else {
-    yaml <- substr(text, loc[1, 2], loc[2, 1])
+    yaml <- substr(text, yaml_loc[1, 2], yaml_loc[2, 1])
     metadata <- yaml::yaml.load(yaml)
 
-    contents <- substr(text, loc[2, 2] + 1, nchar(text))
+    contents <- substr(text, yaml_loc[2, 2] + 1, nchar(text))
   }
 
   metadata$.path <- path
@@ -32,10 +32,6 @@ locate_metadata <- function(text) {
   if (is.null(yaml_next)) return(NULL)
 
   rbind(yaml_start, yaml_next)
-}
-
-parse_metadata <- function(text, loc = locate_metadata(text)) {
-
 }
 
 locate <- function(x, pattern) {
@@ -58,3 +54,5 @@ print.rsmith_file <- function(x, ...) {
   if (!is.null(x$metadata)) str(x$metadata, no.list = TRUE)
   cat("Contents: ", nchar(x$contents, type = "bytes"), " bytes\n", sep = "")
 }
+
+path <- function(x) x$metadata$.path
