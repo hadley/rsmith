@@ -1,2 +1,8 @@
 YEAR: 2014
 COPYRIGHT HOLDER: Hadley Wickham, RStudio
+
+---
+
+Contents of demo/static-site come from https://github.com/segmentio/metalsmith.
+They are copyright 2013, Segment.io <friends@segment.io>, and MIT licensed.
+
