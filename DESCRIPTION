@@ -7,6 +7,6 @@ Depends:
     R (>= 3.0.2)
 License: GPL-3
 LazyData: true
-Import: Rcpp (>= 0.11.0)
+Import: Rcpp (>= 0.11.0), yaml
 LinkingTo: Rcpp
 Roxygen: list(wrap = FALSE)
