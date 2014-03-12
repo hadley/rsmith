@@ -1,7 +1,11 @@
 rsmith <- function(src = "src", dest = "build") {
   metadata <- list(.src = src, .dest = dest)
 
-  paths <- dir(src, recursive = TRUE, full.names = TRUE)
+  old <- setwd(src)
+  on.exit(setwd(old))
+
+  paths <- dir(recursive = TRUE, full.names = TRUE)
+  paths <- sub("^\\./", "", paths)
   files <- lapply(paths, read_file_with_metadata)
 
   rsmith_obj(metadata, files)
