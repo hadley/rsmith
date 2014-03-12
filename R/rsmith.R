@@ -25,3 +25,5 @@ print.rsmith <- function(x, ...) {
   files <- paste(vapply(x$files, path, character(1)), collapse = ", ")
   cat(strwrap(files, indent = 2, exdent = 2), sep = "\n")
 }
+
+is.rsmith <- function(x) inherits(x, "rsmith")
