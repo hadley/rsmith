@@ -4,8 +4,7 @@ rsmith is a port of the node static site generator [metalsmith](http://www.metal
 
 ## Main differences
 
-Rsmith adheres to the basic metasmith principle that everything should be a plugin, but:
-
+Rsmith adheres to the spirit of metalsmith, but is written in idiomatic R. This means that it:
 
 * Has a more functional flavour so you can use it with the pipe operation
   from [magrittr](https://github.com/smbache/magrittr).
