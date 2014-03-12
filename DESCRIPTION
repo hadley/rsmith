@@ -8,5 +8,7 @@ Depends:
 License: MIT + file LICENSE
 LazyData: true
 Import: Rcpp (>= 0.11.0), yaml
+Suggests:
+    whisker
 LinkingTo: Rcpp
 Roxygen: list(wrap = FALSE)

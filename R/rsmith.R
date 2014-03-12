@@ -1,4 +1,5 @@
 rsmith <- function(src = "src", dest = "build") {
+  src <- normalizePath(src)
   metadata <- list(.src = src, .dest = dest)
 
   old <- setwd(src)
@@ -27,3 +28,13 @@ print.rsmith <- function(x, ...) {
 }
 
 is.rsmith <- function(x) inherits(x, "rsmith")
+
+
+rsmith_demo <- function(name, ...) {
+  path <- system.file("demo", name, package = "rsmith")
+
+  old <- setwd(path)
+  on.exit(setwd(old))
+
+  rsmith(...)
+}

@@ -13,6 +13,6 @@ rsmith() %>%
     description = "My second, super-cool blog."
   ) %>%
   use_rmarkdown() %>%
-  use_moustache() %>%
+  use_whisker() %>%
   build()
 ```
