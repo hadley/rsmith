@@ -2,7 +2,37 @@
 
 [![Build Status](https://travis-ci.org/hadley/rsmith.png)](https://travis-ci.org/hadley/rsmith)
 
-rsmith is a port of the node static site generator [metalsmith](http://www.metalsmith.io/).
+rsmith is inspired by [metalsmith](http://www.metalsmith.io/), which is a static site generator for node with a very simple API, based almost entirely on plugins.
+rsmith has a functional API, which when combined with [magrittr](https://github.com/smbache/magrittr), provides a pretty nice declarative specification:
+
+```R
+rsmith("src", "dest") %>%
+  use(markdown()) %>%
+  use(whisker()) %>%
+  build()
+```
+
+Possibly the coolest feature is that it uses Shiny's reactivity to cache interim results. This means that if you use `watch()` instead of `build()`, rsmith will watch for changes on disk and will do the minimal amount of work to update the site:
+
+```R
+rsmith("src", "dest") %>%
+  use(markdown()) %>%
+  use(whisker()) %>%
+  watch()
+```
+
+## Plugins
+
+* `markdown()`: render `.md` to `.html` with the
+  [markdown](http://cran.r-project.org/web/packages/markdown) package.
+
+* `rmarkdown()`: render `.Rmd` to `.html`, `.pdf` or `.doc` with
+  [rmarkdown](http://rmarkdown.rstudio.com/).
+
+* use `brew()` or `whisker()` templates
+
+* `ignore_draft()`, `ignore_files()`: ignore files based on either metadata
+  or path
 
 ## Main differences
 
