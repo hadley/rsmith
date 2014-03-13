@@ -1,5 +1,12 @@
-#' Generate a reactive site.
+#' Initialise rsmith.
 #'
+#' RSmith is a static site generator for R. This function provides
+#' basic metadata about the site. You then \code{\link{add_plugin}}s to do
+#' manipulate the source files, and finally use \code{\link{build}} or
+#' \code{\link{watch}} to save the results to disk.
+#'
+#' @param src,dest Source and destination directories
+#' @param base Base directory - should usually be set to the parent of the src.
 #' @export
 #' @examples
 #' rsmith_demo("static-site") %>% build()
@@ -25,49 +32,6 @@ read_src <- function(rsmith, f, ...) {
 
   lapply(paths, f, ...)
 }
-
-add_plugin <- function(rsmith, plugin) {
-  rsmith$plugins <- append(rsmith$plugins, plugin)
-  rsmith
-}
-
-build <- function(rsmith) {
-  files <- read_src(rsmith, read_file_with_metadata, quiet = TRUE)
-
-  for (plugin in rsmith$plugins) {
-    rsmith <- plugin$init(rsmith)
-    files <- lapply(files, plugin$process)
-  }
-
-  write(rsmith, files)
-}
-
-watch <- function(rsmith, interval = 0.25) {
-  if (!is_installed("whisker")) {
-    stop("Please install the whisker package", call. = FALSE)
-  }
-
-  message("Watching for changes. Press Escape to stop.")
-
-  files <- read_src(rsmith, reactive_file_with_metadata)
-
-  for (plugin in rsmith$plugins) {
-    rsmith <- plugin$init(rsmith)
-    files <- lapply(files, function(x) shiny::reactive(plugin$process(x)))
-  }
-
-  shiny::observe({
-    output <- lapply(rsmith$files, function(r) shiny::isolate(r()))
-    write(rsmith, output)
-  })
-
-  while(TRUE) {
-    Sys.sleep(interval / 10)
-    shiny:::flushReact()
-  }
-}
-
-
 
 #' @export
 print.rsmith <- function(x, ...) {

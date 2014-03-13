@@ -1,6 +1,3 @@
-#' @include plugin.R
-NULL
-
 #' Ignore files that match a pattern.
 #'
 #' @param pattern A regular expression to match against the file paths.

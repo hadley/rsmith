@@ -1,7 +1,3 @@
-#' @examples
-#' static_site <- rsmith_demo("static-site")
-#' write(use_whisker(static_site))
-#' write(static_site)
 write <- function(rsmith, files) {
   message("Writing output")
 

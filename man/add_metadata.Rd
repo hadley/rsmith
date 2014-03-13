@@ -22,7 +22,7 @@ static_site <- rsmith_demo("static-site")
 add_metadata(static_site, test = 1, foo = "bar")
 }
 \seealso{
-Other plugins: \code{\link{ignore_drafts}};
-  \code{\link{ignore_files}}
+Other plugins: \code{\link{add_plugin}};
+  \code{\link{ignore_drafts}}; \code{\link{ignore_files}}
 }
 

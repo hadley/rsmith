@@ -45,7 +45,6 @@ reactive_file_with_metadata <- function(path, ..., interval = 1) {
     interval / 1000,
     NULL,
     function() {
-      browser()
       info <- file.info(path)
       return(paste(path, info$mtime, info$size))
     },

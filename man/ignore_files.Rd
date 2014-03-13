@@ -3,11 +3,9 @@
 \alias{ignore_files}
 \title{Ignore files that match a pattern.}
 \usage{
-ignore_files(rsmith, pattern, ...)
+ignore_files(pattern, ...)
 }
 \arguments{
-  \item{rsmith}{An \code{\link{rsmith}} object.}
-
   \item{pattern}{A regular expression to match against the
   file paths.  Any files matching the pattern will be
   dropped.}
@@ -16,7 +14,7 @@ ignore_files(rsmith, pattern, ...)
   \code{\link{grepl}}}
 }
 \value{
-An modified \code{\link{rsmith}} object.
+An \code{\link{plugin}}
 }
 \description{
 Ignore files that match a pattern.
@@ -28,6 +26,6 @@ ignore_files(static_site, "post")
 }
 \seealso{
 Other plugins: \code{\link{add_metadata}};
-  \code{\link{ignore_drafts}}
+  \code{\link{add_plugin}}; \code{\link{ignore_drafts}}
 }
 

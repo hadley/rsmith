@@ -4,12 +4,12 @@ Description: Inspired by http://www.metalsmith.io/
 Version: 0.1
 Authors@R: 'Hadley Wickham <h.wickham@gmail.com> [aut,cre]'
 Depends:
-    R (>= 3.0.2)
+    magrittr
 License: MIT + file LICENSE
 LazyData: true
-Depends: magrittr
 Import: Rcpp (>= 0.11.0), yaml
 Suggests:
-    whisker, shiny
+    whisker,
+    shiny
 LinkingTo: Rcpp
 Roxygen: list(wrap = FALSE)

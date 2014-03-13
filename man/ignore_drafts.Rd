@@ -3,13 +3,10 @@
 \alias{ignore_drafts}
 \title{Remove draft file.}
 \usage{
-ignore_drafts(rsmith)
-}
-\arguments{
-  \item{rsmith}{An \code{\link{rsmith}} object.}
+ignore_drafts()
 }
 \value{
-An modified \code{\link{rsmith}} object.
+An \code{\link{plugin}}
 }
 \description{
 Any file with \code{draft: true} in the metadata will be removed.
@@ -20,6 +17,6 @@ ignore_drafts(static_site)
 }
 \seealso{
 Other plugins: \code{\link{add_metadata}};
-  \code{\link{ignore_files}}
+  \code{\link{add_plugin}}; \code{\link{ignore_files}}
 }
 
