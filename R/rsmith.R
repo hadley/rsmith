@@ -1,3 +1,6 @@
+#' Generate a reactive site.
+#'
+#' @export
 #' @examples
 #' rsmith_demo("static-site")
 rsmith <- function(src = "src", dest = "build") {
