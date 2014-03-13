@@ -14,6 +14,7 @@ Imports:
 Suggests:
     whisker,
     shiny,
-    testthat
+    testthat,
+    markdown
 LinkingTo: Rcpp
 Roxygen: list(wrap = FALSE)
