@@ -17,7 +17,7 @@
 #' static_site <- rsmith_demo("static-site")
 #' static_site %>% use(markdown()) %>% preview()
 #' static_site %>% use(markdown()) %>% use(whisker(".html")) %>% preview()
-whisker <- function(pattern = "\\.R?md$", template_dir = "templates") {
+whisker <- function(pattern = "\\.html$", template_dir = "templates") {
   template_plugin("whisker", whisker::whisker.render, pattern = pattern,
     template_dir = template_dir)
 }

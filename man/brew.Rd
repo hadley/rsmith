@@ -3,7 +3,7 @@
 \alias{brew}
 \title{Render brew templates.}
 \usage{
-brew(pattern = "\\\\.R?.+$", template_dir = "templates")
+brew(pattern = "\\\\.html$", template_dir = "templates")
 }
 \arguments{
   \item{pattern}{Regular expression describing patterns to

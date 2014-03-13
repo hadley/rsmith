@@ -14,7 +14,7 @@
 #' @examples
 #' brew_site <- rsmith_demo("brew")
 #' brew_site %>% use(brew()) %>% preview()
-brew <- function(pattern = "\\.R?.+$", template_dir = "templates") {
+brew <- function(pattern = "\\.html$", template_dir = "templates") {
   render <- function(template, metadata) {
     brew::brew(text = template,
       envir = list2env(metadata, parent = globalenv()))

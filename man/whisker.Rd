@@ -3,7 +3,7 @@
 \alias{whisker}
 \title{Render whisker templates.}
 \usage{
-whisker(pattern = "\\\\.R?md$", template_dir = "templates")
+whisker(pattern = "\\\\.html$", template_dir = "templates")
 }
 \arguments{
   \item{pattern}{Regular expression describing patterns to

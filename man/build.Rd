@@ -23,7 +23,7 @@ changes, re-outputing every time an input file changes. \code{preview}
 prints output on screen.
 }
 \examples{
-static_site <- rsmith_demo("static-site")
+static_site <- rsmith_demo("rmarkdown")
 static_site \%>\% build()
 \dontrun{
 static_site \%>\% watch()
