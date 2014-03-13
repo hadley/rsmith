@@ -16,6 +16,7 @@ Suggests:
     shiny,
     testthat,
     markdown,
-    brew
+    brew,
+    rmarkdown
 LinkingTo: Rcpp
 Roxygen: list(wrap = FALSE)
