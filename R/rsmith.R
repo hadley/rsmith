@@ -1,5 +1,6 @@
 rsmith <- function(src = "src", dest = "build") {
-  src <- normalizePath(src)
+  src <- normalizePath(src, mustWork = TRUE)
+  dest <- normalizePath(dest, mustWork = FALSE)
   metadata <- list(.src = src, .dest = dest)
 
   old <- setwd(src)
@@ -36,5 +37,5 @@ rsmith_demo <- function(name, ...) {
   old <- setwd(path)
   on.exit(setwd(old))
 
-  rsmith(...)
+  rsmith(dest = tempfile(), ...)
 }
