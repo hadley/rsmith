@@ -58,4 +58,6 @@ print.rsmith_file <- function(x, ...) {
   cat("Contents: ", nchar(x$contents, type = "bytes"), " bytes\n", sep = "")
 }
 
-path <- function(x) x$metadata$.path
+path <- function(x) {
+  isolate(x()$metadata$.path)
+}
