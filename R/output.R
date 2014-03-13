@@ -24,6 +24,7 @@ build <- function(rsmith) {
 }
 
 #' @rdname build
+#' @export
 preview <- function(rsmith) {
   files <- read_src(rsmith, read_file_with_metadata, quiet = TRUE)
 
