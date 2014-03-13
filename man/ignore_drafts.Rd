@@ -13,7 +13,7 @@ Any file with \code{draft: true} in the metadata will be removed.
 }
 \examples{
 static_site <- rsmith_demo("static-site")
-ignore_drafts(static_site)
+static_site \%>\% add_plugin(ignore_drafts())
 }
 \seealso{
 Other plugins: \code{\link{add_metadata}};

@@ -12,7 +12,7 @@ rsmith_demo(name, ...)
 Easily access rsmith demo sites.
 }
 \examples{
-system.path("demo", package = "rsmith")
+dir(system.file("examples", package = "rsmith"))
 rsmith_demo("static-site")
 }
 \keyword{internal}

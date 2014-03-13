@@ -52,10 +52,10 @@ is.rsmith <- function(x) inherits(x, "rsmith")
 #' @keywords internal
 #' @export
 #' @examples
-#' system.path("demo", package = "rsmith")
+#' dir(system.file("examples", package = "rsmith"))
 #' rsmith_demo("static-site")
 rsmith_demo <- function(name, ...) {
-  path <- system.file("demo", name, package = "rsmith")
+  path <- system.file("examples", name, package = "rsmith")
 
   old <- setwd(path)
   on.exit(setwd(old))
