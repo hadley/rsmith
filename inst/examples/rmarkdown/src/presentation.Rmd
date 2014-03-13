@@ -1,0 +1,18 @@
+---
+title: presentation
+output:
+  ioslides_presentation: {}
+---
+
+## Slide with R Code and Output
+
+```{r}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r, echo=FALSE}
+plot(cars)
+```
+

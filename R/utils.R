@@ -19,3 +19,5 @@ combine_paths <- function(x, y) {
 
   normalizePath(file.path(x, y))
 }
+
+"%||%" <- function(a, b) if (is.null(a)) b else a
