@@ -1,5 +1,7 @@
 # rsmith
 
+[![Build Status](https://travis-ci.org/hadley/rsmith.png)](https://travis-ci.org/hadley/rsmith)
+
 rsmith is a port of the node static site generator [metalsmith](http://www.metalsmith.io/).
 
 ## Main differences
