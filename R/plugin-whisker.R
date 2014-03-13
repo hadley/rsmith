@@ -38,7 +38,9 @@ load_templates <- function(path) {
   if (length(template_paths) == 0) {
     stop("No templates found", call. = FALSE)
   }
-  templates <- lapply(template_paths, read_file)
+  templates <- lapply(template_paths, function(x) {
+    reactiveFileReader(250, NULL, x, read_file)
+  })
   names(templates) <- basename(template_paths)
 
   templates

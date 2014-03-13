@@ -1,18 +1,20 @@
 #' @examples
 #' static_site <- rsmith_demo("static-site")
-#' build(use_whisker(static_site))
-#' build(static_site)
-build <- function(rsmith, ...) {
-  dest <- rsmith$metadata$.dest
+#' write(use_whisker(static_site))
+#' write(static_site)
+write <- function(rsmith, files) {
+  message("Writing output")
 
+  old <- setwd(rsmith$metadata$.base)
+  on.exit(setwd(old), add = TRUE)
+
+  dest <- rsmith$metadata$.dest
   if (!file.exists(dest)) {
     dir.create(dest)
   }
+  setwd(dest)
 
-  old <- setwd(dest)
-  on.exit(setwd(old), add = TRUE)
-
-  for (file in rsmith$files) {
+  for (file in files) {
     write_if_different(file$metadata$.path, file$contents)
   }
 

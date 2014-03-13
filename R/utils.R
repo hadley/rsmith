@@ -13,3 +13,9 @@ print_metadata <- function(x) {
   cat("Metadata:\n")
   str(x, no.list = TRUE)
 }
+
+combine_paths <- function(x, y) {
+  if (substr(y, 1, 1) == "/") return(y)
+
+  normalizePath(file.path(x, y))
+}

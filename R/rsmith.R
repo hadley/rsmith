@@ -2,27 +2,72 @@
 #'
 #' @export
 #' @examples
-#' rsmith_demo("static-site")
-rsmith <- function(src = "src", dest = "build") {
-  src <- normalizePath(src, mustWork = TRUE)
-  dest <- normalizePath(dest, mustWork = FALSE)
-  metadata <- list(.src = src, .dest = dest)
+#' rsmith_demo("static-site") %>% build()
+rsmith <- function(src = "src", dest = "build", base = ".") {
+  base <- normalizePath(base, mustWork = TRUE)
 
-  paths <- dir(src, recursive = TRUE, full.names = TRUE)
-  paths <- sub("^\\./", "", paths)
-  files <- lapply(paths, function(x) {
-    reactiveFileReader(250, NULL, x, read_file_with_metadata)
-  })
+  metadata <- list(.base = base, .src = src, .dest = dest)
+  plugins <- list()
 
-  rsmith_obj(metadata, files)
-}
-
-rsmith_obj <- function(metadata, files) {
-  out <- list(metadata = metadata, files = files)
+  out <- list(metadata = metadata, plugins = plugins)
   class(out) <- "rsmith"
 
   out
 }
+
+read_src <- function(rsmith, f, ...) {
+  old <- setwd(rsmith$metadata$.base)
+  on.exit(setwd(old))
+  setwd(rsmith$metadata$.src)
+
+  paths <- dir(recursive = TRUE, full.names = TRUE)
+  paths <- gsub("^\\./", "", paths)
+
+  lapply(paths, f, ...)
+}
+
+add_plugin <- function(rsmith, plugin) {
+  rsmith$plugins <- append(rsmith$plugins, plugin)
+  rsmith
+}
+
+build <- function(rsmith) {
+  files <- read_src(rsmith, read_file_with_metadata, quiet = TRUE)
+
+  for (plugin in rsmith$plugins) {
+    rsmith <- plugin$init(rsmith)
+    files <- lapply(files, plugin$process)
+  }
+
+  write(rsmith, files)
+}
+
+watch <- function(rsmith, interval = 0.25) {
+  if (!is_installed("whisker")) {
+    stop("Please install the whisker package", call. = FALSE)
+  }
+
+  message("Watching for changes. Press Escape to stop.")
+
+  files <- read_src(rsmith, reactive_file_with_metadata)
+
+  for (plugin in rsmith$plugins) {
+    rsmith <- plugin$init(rsmith)
+    files <- lapply(files, function(x) shiny::reactive(plugin$process(x)))
+  }
+
+  shiny::observe({
+    output <- lapply(rsmith$files, function(r) shiny::isolate(r()))
+    write(rsmith, output)
+  })
+
+  while(TRUE) {
+    Sys.sleep(interval / 10)
+    shiny:::flushReact()
+  }
+}
+
+
 
 #' @export
 print.rsmith <- function(x, ...) {

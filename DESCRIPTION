@@ -7,8 +7,9 @@ Depends:
     R (>= 3.0.2)
 License: MIT + file LICENSE
 LazyData: true
-Import: Rcpp (>= 0.11.0), yaml, shiny
+Depends: magrittr
+Import: Rcpp (>= 0.11.0), yaml
 Suggests:
-    whisker
+    whisker, shiny
 LinkingTo: Rcpp
 Roxygen: list(wrap = FALSE)

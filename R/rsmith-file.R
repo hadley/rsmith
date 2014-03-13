@@ -38,6 +38,23 @@ locate_metadata <- function(text) {
   rbind(yaml_start, yaml_next)
 }
 
+reactive_file_with_metadata <- function(path, ..., interval = 1) {
+  path <- normalizePath(path)
+
+  reactivePoll(
+    interval / 1000,
+    NULL,
+    function() {
+      browser()
+      info <- file.info(path)
+      return(paste(path, info$mtime, info$size))
+    },
+    function() {
+      read_file_with_metadata(path, ...)
+    }
+  )
+}
+
 locate <- function(x, pattern) {
   match <- regexpr(pattern, x)
   if (match[[1]] == -1) return(NULL)
