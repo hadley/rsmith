@@ -1,7 +1,7 @@
 read_file_with_metadata <- function(path, quiet = FALSE) {
   if (!file.exists(path)) {
     warning(path, " does not exist", call. = FALSE)
-    NULL
+    return(NULL)
   }
   if (!quiet) {
     message("Loading ", path)
@@ -41,12 +41,12 @@ locate_metadata <- function(text) {
 reactive_file_with_metadata <- function(path, ..., interval = 1) {
   path <- normalizePath(path)
 
-  reactivePoll(
-    interval / 1000,
+  shiny::reactivePoll(
+    interval * 1000,
     NULL,
     function() {
       info <- file.info(path)
-      return(paste(path, info$mtime, info$size))
+      return(paste(info$mtime, info$size))
     },
     function() {
       read_file_with_metadata(path, ...)
