@@ -1,5 +1,6 @@
 #' @examples
 #' static_site <- rsmith_demo("static-site")
+#' build(use_whisker(static_site))
 #' build(static_site)
 build <- function(rsmith, ...) {
   dest <- rsmith$metadata$.dest

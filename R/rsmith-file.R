@@ -50,8 +50,7 @@ rsmith_file <- function(metadata, contents) {
 #' @export
 print.rsmith_file <- function(x, ...) {
   cat("<rsmith_file>\n")
-  cat("Metadata:\n")
-  if (!is.null(x$metadata)) str(x$metadata, no.list = TRUE)
+  print_metadata(x$metadata)
   cat("Contents: ", nchar(x$contents, type = "bytes"), " bytes\n", sep = "")
 }
 

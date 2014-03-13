@@ -23,7 +23,9 @@ rsmith_obj <- function(metadata, files) {
 #' @export
 print.rsmith <- function(x, ...) {
   cat("<rsmith> ", x$metadata$.src , " -> ", x$metadata$.dest, "\n", sep = "")
+  print_metadata(x$metadata)
 
+  cat("Files:\n")
   files <- paste(vapply(x$files, path, character(1)), collapse = ", ")
   cat(strwrap(files, indent = 2, exdent = 2), sep = "\n")
 }

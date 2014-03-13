@@ -16,4 +16,8 @@ is available with the prefix \code{site.}.
 
 Uses moustache syntax: \url{http://mustache.github.io/}.
 }
+\examples{
+static_site <- rsmith_demo("static-site")
+use_whisker(static_site)
+}
 
