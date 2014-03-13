@@ -75,5 +75,5 @@ print.rsmith_file <- function(x, ...) {
 }
 
 path <- function(x) {
-  isolate(x()$metadata$.path)
+  x$metadata$.path
 }

@@ -13,28 +13,37 @@
 #' @param pattern Regular expression describing patterns to process.
 #' @param template_dir Directory in which to look for templates. Relative
 #'   to site base directory.
+#' @export
 #' @examples
 #' static_site <- rsmith_demo("static-site")
-#' use_whisker(static_site)
+#' static_site %>% preview()
+#' static_site %>% add_plugin(use_whisker()) %>% preview()
 use_whisker <- function(rsmith, pattern = "\\.R?md$",
                         template_dir = "templates") {
   if (!is_installed("whisker")) {
     stop("Please install the whisker package", call. = FALSE)
   }
 
-  old <- setwd(dirname(rsmith$metadata$.src))
-  on.exit(setwd(old), add = TRUE)
+  templates <- NULL
+  global_metadata <- NULL
+  init <- function(rsmith) {
+    template_path <- file.path(rsmith$metadata$.base, template_dir)
+    templates <<- load_templates(template_path)
 
-  templates <- load_templates(template_dir)
-  whisker_one <- function(file, rsmith) {
+    global_metadata <<- rsmith$metadata
+
+    rsmith
+  }
+  process <- function(file) {
     if (!grepl(pattern, path(file))) return(file)
     if (is.null(file$metadata$template)) return(file)
 
-    file$contents <- render_template(file, templates, rsmith)
+    file$contents <- render_template(file, templates, global_metadata)
     file$template <- NULL
     file
   }
-  transform_each(rsmith, whisker_one)
+
+  plugin_with_init("whisker", init, process)
 }
 
 load_templates <- function(path) {
@@ -42,15 +51,13 @@ load_templates <- function(path) {
   if (length(template_paths) == 0) {
     stop("No templates found", call. = FALSE)
   }
-  templates <- lapply(template_paths, function(x) {
-    reactiveFileReader(250, NULL, x, read_file)
-  })
+  templates <- lapply(template_paths, read_file)
   names(templates) <- basename(template_paths)
 
   templates
 }
 
-render_template <- function(file, templates, rsmith) {
+render_template <- function(file, templates, global_metadata) {
   template <- templates[file$metadata$template]
   if (is.na(template)) {
     warning("Couldn't find template ", file$metadata$template, " in ",
@@ -60,7 +67,7 @@ render_template <- function(file, templates, rsmith) {
 
   metadata <- file$metadata
   metadata$contents <- file$contents
-  metadata[paste0("site.", names(rsmith$metadata))] <- rsmith$metadata
+  metadata[paste0("site.", names(global_metadata))] <- global_metadata
 
   whisker::whisker.render(template, metadata)
 }

@@ -36,12 +36,6 @@ read_src <- function(rsmith, f, ...) {
 #' @export
 print.rsmith <- function(x, ...) {
   cat("<rsmith> ", x$metadata$.src , " -> ", x$metadata$.dest, "\n", sep = "")
-  # print_metadata(metadata)
-
-  cat("Files:\n")
-  paths <- vapply(x$files, path, character(1))
-  cat(strwrap(paste(paths, collapse = ", "), indent = 2, exdent = 2),
-    sep = "\n")
 }
 
 is.rsmith <- function(x) inherits(x, "rsmith")
@@ -56,6 +50,7 @@ is.rsmith <- function(x) inherits(x, "rsmith")
 #' rsmith_demo("static-site")
 rsmith_demo <- function(name, ...) {
   path <- system.file("examples", name, package = "rsmith")
+  if (path == "") stop("Can't find demo ", name, call. = FALSE)
 
   old <- setwd(path)
   on.exit(setwd(old))

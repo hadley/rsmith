@@ -9,7 +9,7 @@
 #' @export
 #' @family plugins
 add_plugin <- function(rsmith, plugin) {
-  rsmith$plugins <- append(rsmith$plugins, plugin)
+  rsmith$plugins <- append(rsmith$plugins, list(plugin))
   rsmith
 }
 

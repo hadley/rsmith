@@ -1,7 +1,8 @@
 #' Save rsmith output.
 #'
 #' \code{build} will build the site once, while \code{watch} listens for
-#' changes, re-outputing every time an input file changes.
+#' changes, re-outputing every time an input file changes. \code{preview}
+#' prints output on screen.
 #'
 #' @param rsmith An object created by \code{\link{rsmith}}.
 #' @export
@@ -21,6 +22,22 @@ build <- function(rsmith) {
 
   write(rsmith, files)
 }
+
+#' @rdname build
+preview <- function(rsmith) {
+  files <- read_src(rsmith, read_file_with_metadata, quiet = TRUE)
+
+  for (plugin in rsmith$plugins) {
+    rsmith <- plugin$init(rsmith)
+    files <- lapply(files, plugin$process)
+  }
+
+  for(file in files) {
+    message(file$metadata$.path)
+    cat(file$content)
+  }
+}
+
 
 #' @rdname build
 #' @param interval How often to check for changes, in seconds.
