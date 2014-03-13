@@ -53,7 +53,7 @@ render_template <- function(file, templates, rsmith) {
   }
 
   metadata <- file$metadata
-  metadata$content <- file$contents
+  metadata$contents <- file$contents
   metadata[paste0("site.", names(rsmith$metadata))] <- rsmith$metadata
 
   whisker::whisker.render(template, metadata)
