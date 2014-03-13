@@ -16,8 +16,8 @@
 #' @examples
 #' static_site <- rsmith_demo("static-site")
 #' static_site %>% preview()
-#' static_site %>% add_plugin(use_whisker()) %>% preview()
-use_whisker <- function(pattern = "\\.R?md$", template_dir = "templates") {
+#' static_site %>% use(whisker()) %>% preview()
+whisker <- function(pattern = "\\.R?md$", template_dir = "templates") {
   if (!is_installed("whisker")) {
     stop("Please install the whisker package", call. = FALSE)
   }

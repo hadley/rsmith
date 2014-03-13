@@ -12,7 +12,7 @@ rsmith() %>%
     title = "My Blog",
     description = "My second, super-cool blog."
   ) %>%
-  use_rmarkdown() %>%
-  use_whisker() %>%
+  use(markdown()) %>%
+  use(whisker()) %>%
   build()
 ```

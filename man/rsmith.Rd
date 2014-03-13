@@ -13,7 +13,7 @@ rsmith(src = "src", dest = "build", base = ".")
 }
 \description{
 RSmith is a static site generator for R. This function provides
-basic metadata about the site. You then \code{\link{add_plugin}}s to do
+basic metadata about the site. You then \code{\link{use}} plugins to
 manipulate the source files, and finally use \code{\link{build}} or
 \code{\link{watch}} to save the results to disk.
 }

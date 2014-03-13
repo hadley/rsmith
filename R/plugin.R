@@ -8,7 +8,7 @@
 #' @return a modified rsmith \code{\link{rsmith}} object.
 #' @export
 #' @family plugins
-add_plugin <- function(rsmith, plugin) {
+use <- function(rsmith, plugin) {
   rsmith$plugins <- append(rsmith$plugins, list(plugin))
   rsmith
 }

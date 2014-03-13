@@ -8,8 +8,8 @@
 #' @examples
 #' static_site <- rsmith_demo("static-site")
 #' static_site %>% preview()
-#' static_site %>% add_plugin(use_markdown()) %>% preview()
-use_markdown <- function(pattern = "\\.md$") {
+#' static_site %>% use(markdown()) %>% preview()
+markdown <- function(pattern = "\\.md$") {
   if (!is_installed("markdown")) {
     stop("Please install the markdown package", call. = FALSE)
   }

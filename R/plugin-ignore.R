@@ -8,8 +8,8 @@
 #' @family plugins
 #' @examples
 #' static_site <- rsmith_demo("static-site")
-#' static_site %>% add_plugin(ignore_files("first")) %>% preview()
-#' static_site %>% add_plugin(ignore_files("post")) %>% preview()
+#' static_site %>% use(ignore_files("first")) %>% preview()
+#' static_site %>% use(ignore_files("post")) %>% preview()
 ignore_files <- function(pattern, ...) {
   plugin("ignore_files", function(file) {
     if (grepl(pattern, file$metadata$.path, ...)) return()
@@ -27,7 +27,7 @@ ignore_files <- function(pattern, ...) {
 #' @family plugins
 #' @examples
 #' static_site <- rsmith_demo("static-site")
-#' static_site %>% add_plugin(ignore_drafts()) %>% preview()
+#' static_site %>% use(ignore_drafts()) %>% preview()
 ignore_drafts <- function() {
   plugin("ignore_drafts", function(file) {
     if (isTRUE(file$metadata$draft)) return()

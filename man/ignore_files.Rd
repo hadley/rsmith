@@ -21,11 +21,11 @@ Ignore files that match a pattern.
 }
 \examples{
 static_site <- rsmith_demo("static-site")
-static_site \%>\% add_plugin(ignore_files("first")) \%>\% preview()
-static_site \%>\% add_plugin(ignore_files("post")) \%>\% preview()
+static_site \%>\% use(ignore_files("first")) \%>\% preview()
+static_site \%>\% use(ignore_files("post")) \%>\% preview()
 }
 \seealso{
 Other plugins: \code{\link{add_metadata}};
-  \code{\link{add_plugin}}; \code{\link{ignore_drafts}}
+  \code{\link{ignore_drafts}}; \code{\link{use}}
 }
 
