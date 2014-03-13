@@ -13,6 +13,7 @@ Imports:
     digest
 Suggests:
     whisker,
-    shiny
+    shiny,
+    testthat
 LinkingTo: Rcpp
 Roxygen: list(wrap = FALSE)
