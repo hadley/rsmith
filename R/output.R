@@ -17,7 +17,7 @@ build <- function(rsmith) {
 
   for (plugin in rsmith$plugins) {
     rsmith <- plugin$init(rsmith)
-    files <- lapply(files, plugin$process)
+    files <- compact(lapply(files, plugin$process))
   }
 
   write(rsmith, files)
@@ -29,12 +29,12 @@ preview <- function(rsmith) {
 
   for (plugin in rsmith$plugins) {
     rsmith <- plugin$init(rsmith)
-    files <- lapply(files, plugin$process)
+    files <- compact(lapply(files, plugin$process))
   }
 
   for(file in files) {
     message(file$metadata$.path)
-    cat(file$content)
+    cat(file$content, "\n", sep = "")
   }
 }
 

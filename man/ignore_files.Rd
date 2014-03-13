@@ -21,8 +21,8 @@ Ignore files that match a pattern.
 }
 \examples{
 static_site <- rsmith_demo("static-site")
-static_site \%>\% add_plugin(ignore_files("first"))
-static_site \%>\% add_plugin(ignore_files("post"))
+static_site \%>\% add_plugin(ignore_files("first")) \%>\% preview()
+static_site \%>\% add_plugin(ignore_files("post")) \%>\% preview()
 }
 \seealso{
 Other plugins: \code{\link{add_metadata}};
