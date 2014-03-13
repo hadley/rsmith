@@ -5,6 +5,15 @@
 \usage{
 use_whisker(rsmith, pattern = "\\\\.R?md$", template_dir = "templates")
 }
+\arguments{
+  \item{rsmith}{xxx}
+
+  \item{pattern}{Regular expression describing patterns to
+  process.}
+
+  \item{template_dir}{Directory in which to look for
+  templates. Relative to site base directory.}
+}
 \description{
 Any files matching \code{pattern}, and containing a template entry
 in their metadata will have their contents replaced by the template

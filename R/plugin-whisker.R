@@ -9,6 +9,10 @@
 #'
 #' Uses moustache syntax: \url{http://mustache.github.io/}.
 #'
+#' @param rsmith xxx
+#' @param pattern Regular expression describing patterns to process.
+#' @param template_dir Directory in which to look for templates. Relative
+#'   to site base directory.
 #' @examples
 #' static_site <- rsmith_demo("static-site")
 #' use_whisker(static_site)

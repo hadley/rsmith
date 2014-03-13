@@ -46,6 +46,14 @@ print.rsmith <- function(x, ...) {
 
 is.rsmith <- function(x) inherits(x, "rsmith")
 
+#' Easily access rsmith demo sites.
+#'
+#' @param name Name of demo.
+#' @keywords internal
+#' @export
+#' @examples
+#' system.path("demo", package = "rsmith")
+#' rsmith_demo("static-site")
 rsmith_demo <- function(name, ...) {
   path <- system.file("demo", name, package = "rsmith")
 

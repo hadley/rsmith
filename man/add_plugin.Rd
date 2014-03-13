@@ -9,8 +9,9 @@ add_plugin(rsmith, plugin)
   \item{rsmith}{\code{\link{rsmith}} object}
 
   \item{plugin}{object created by \code{\link{plugin}}}
-
-  \item{a}{modified rsmith \code{\link{rsmith}} object.}
+}
+\value{
+a modified rsmith \code{\link{rsmith}} object.
 }
 \description{
 You can use one of the pre-built functions or create your own with
