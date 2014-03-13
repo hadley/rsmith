@@ -7,7 +7,7 @@ Depends:
     R (>= 3.0.2)
 License: MIT + file LICENSE
 LazyData: true
-Import: Rcpp (>= 0.11.0), yaml
+Import: Rcpp (>= 0.11.0), yaml, shiny
 Suggests:
     whisker
 LinkingTo: Rcpp
