@@ -1,6 +1,10 @@
-read_file_with_metadata <- function(path) {
+read_file_with_metadata <- function(path, quiet = FALSE) {
   if (!file.exists(path)) {
-    stop(path, " does not exist", call. = FALSE)
+    warning(path, " does not exist", call. = FALSE)
+    NULL
+  }
+  if (!quiet) {
+    message("Loading ", path)
   }
 
   text <- read_file(path)
