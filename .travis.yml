@@ -16,6 +16,7 @@ install:
   - chmod +x $HOME/opt/pandoc/pandoc*
   - rm pandoc-1.12.3.zip
   - $HOME/opt/pandoc/pandoc --version
+  - $HOME/opt/pandoc/pandoc-citeproc --version
 
   - ./travis-tool.sh install_github rstudio/rmarkdown
   - ./travis-tool.sh install_deps
