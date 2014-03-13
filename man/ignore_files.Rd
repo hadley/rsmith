@@ -27,6 +27,7 @@ ignore_files(static_site, "first")
 ignore_files(static_site, "post")
 }
 \seealso{
-Other plugins: \code{\link{add_metadata}}
+Other plugins: \code{\link{add_metadata}};
+  \code{\link{remove_drafts}}
 }
 
