@@ -25,7 +25,7 @@ Uses moustache syntax: \url{http://mustache.github.io/}.
 }
 \examples{
 static_site <- rsmith_demo("static-site")
-static_site \%>\% preview()
-static_site \%>\% use(whisker()) \%>\% preview()
+static_site \%>\% use(markdown()) \%>\% preview()
+static_site \%>\% use(markdown()) \%>\% use(whisker(".html")) \%>\% preview()
 }
 

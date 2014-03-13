@@ -15,8 +15,8 @@
 #' @export
 #' @examples
 #' static_site <- rsmith_demo("static-site")
-#' static_site %>% preview()
-#' static_site %>% use(whisker()) %>% preview()
+#' static_site %>% use(markdown()) %>% preview()
+#' static_site %>% use(markdown()) %>% use(whisker(".html")) %>% preview()
 whisker <- function(pattern = "\\.R?md$", template_dir = "templates") {
   if (!is_installed("whisker")) {
     stop("Please install the whisker package", call. = FALSE)
@@ -63,9 +63,14 @@ render_template <- function(file, templates, global_metadata) {
     return(file$contents)
   }
 
+  metadata <- build_metadata(file, global_metadata)
+  whisker::whisker.render(template, metadata)
+}
+
+build_metadata <- function(file, global) {
   metadata <- file$metadata
   metadata$contents <- file$contents
-  metadata[paste0("site.", names(global_metadata))] <- global_metadata
+  metadata[paste0("site.", names(global))] <- global
 
-  whisker::whisker.render(template, metadata)
+  metadata
 }
