@@ -39,17 +39,20 @@ locate_metadata <- function(text) {
 }
 
 reactive_file_with_metadata <- function(path, ..., interval = 1) {
-  path <- normalizePath(path)
+  norm_path <- normalizePath(path)
 
   shiny::reactivePoll(
     interval * 1000,
     NULL,
     function() {
-      info <- file.info(path)
+      info <- file.info(norm_path)
       return(paste(info$mtime, info$size))
     },
     function() {
-      read_file_with_metadata(path, ...)
+      message("Loading ", path)
+      out <- read_file_with_metadata(norm_path, ..., quiet = TRUE)
+      out$metadata$.path <- path
+      out
     }
   )
 }

@@ -7,7 +7,7 @@
 #' @param rsmith An object created by \code{\link{rsmith}}.
 #' @export
 #' @examples
-#' static_site <- rsmith_demo("static-site")
+#' static_site <- rsmith_demo("rmarkdown")
 #' static_site %>% build()
 #' \dontrun{
 #' static_site %>% watch()
@@ -57,13 +57,15 @@ watch <- function(rsmith, interval = 0.25) {
     files <- lapply(files, function(x) shiny::reactive(plugin$process(x)))
   }
 
-  shiny::observe({
-    output <- lapply(rsmith$files, function(r) shiny::isolate(r()))
-    write(rsmith, output)
+  obs <- shiny::observe({
+    output <- lapply(files, function(r) r())
+    write(rsmith, output, quiet = TRUE)
   })
+  on.exit(obs$suspend(), add = TRUE)
 
   while(TRUE) {
     Sys.sleep(interval / 10)
     shiny:::flushReact()
+    shiny:::timerCallbacks$executeElapsed()
   }
 }

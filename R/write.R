@@ -1,5 +1,5 @@
-write <- function(rsmith, files) {
-  message("Writing output")
+write <- function(rsmith, files, quiet = FALSE) {
+  if (!quiet) message("Writing output")
 
   old <- setwd(rsmith$metadata$.base)
   on.exit(setwd(old), add = TRUE)
