@@ -65,7 +65,6 @@ watch <- function(rsmith, interval = 0.25) {
 
   while(TRUE) {
     Sys.sleep(interval / 10)
-    shiny:::flushReact()
-    shiny:::timerCallbacks$executeElapsed()
+    if (shiny:::timerCallbacks$executeElapsed()) shiny:::flushReact()
   }
 }
