@@ -3,11 +3,9 @@
 \alias{use_whisker}
 \title{Render whisker templates.}
 \usage{
-use_whisker(rsmith, pattern = "\\\\.R?md$", template_dir = "templates")
+use_whisker(pattern = "\\\\.R?md$", template_dir = "templates")
 }
 \arguments{
-  \item{rsmith}{xxx}
-
   \item{pattern}{Regular expression describing patterns to
   process.}
 

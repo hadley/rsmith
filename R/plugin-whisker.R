@@ -9,7 +9,6 @@
 #'
 #' Uses moustache syntax: \url{http://mustache.github.io/}.
 #'
-#' @param rsmith xxx
 #' @param pattern Regular expression describing patterns to process.
 #' @param template_dir Directory in which to look for templates. Relative
 #'   to site base directory.
@@ -18,8 +17,7 @@
 #' static_site <- rsmith_demo("static-site")
 #' static_site %>% preview()
 #' static_site %>% add_plugin(use_whisker()) %>% preview()
-use_whisker <- function(rsmith, pattern = "\\.R?md$",
-                        template_dir = "templates") {
+use_whisker <- function(pattern = "\\.R?md$", template_dir = "templates") {
   if (!is_installed("whisker")) {
     stop("Please install the whisker package", call. = FALSE)
   }
