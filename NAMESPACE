@@ -3,5 +3,6 @@
 S3method(print,rsmith)
 S3method(print,rsmith_file)
 export(add_metadata)
+export(ignore_files)
 importFrom(Rcpp,evalCpp)
 useDynLib(rsmith)
