@@ -27,7 +27,7 @@ rmarkdown <- function(pattern = "\\.Rmd$") {
     metadata <- modifyList(global, file$metadata)
 
     # Save file to temporary location
-    tmp_in <- tempfile()
+    tmp_in <- tempfile(fileext=".Rmd")
     on.exit(unlink(tmp_in), add = TRUE)
     cat("---\n", yaml::as.yaml(metadata), "---\n\n", file = tmp_in, sep = "")
     cat(file$contents, file = tmp_in, append = TRUE)
