@@ -21,28 +21,33 @@ rmarkdown <- function(pattern = "\\.Rmd$") {
     rsmith
   }
 
-  process <- function(file) {
-    if (!grepl(pattern, path(file))) return(file)
+  process <- function(files) {
 
-    metadata <- modifyList(global, file$metadata)
+    files <- lapply(files, function(file) {
+      if (!grepl(pattern, path(file))) return(file)
 
-    # Save file to temporary location
-    tmp_in <- tempfile()
-    on.exit(unlink(tmp_in), add = TRUE)
-    cat("---\n", yaml::as.yaml(metadata), "---\n\n", file = tmp_in, sep = "")
-    cat(file$contents, file = tmp_in, append = TRUE)
+      metadata <- modifyList(global, file$metadata)
 
-    # Render with rmarkdown
-    out <- rmarkdown::render(tmp_in, NULL, quiet = TRUE,
-      output_options = list(self_contained = FALSE))
-    on.exit(unlink(out), add = TRUE)
+      # Save file to temporary location
+      tmp_in <- tempfile(fileext=".Rmd")
+      on.exit(unlink(tmp_in), add = TRUE)
+      cat("---\n", yaml::as.yaml(metadata), "---\n\n", file = tmp_in, sep = "")
+      cat(file$contents, file = tmp_in, append = TRUE)
 
-    # Update file object
-    file$contents <- read_file(out)
-    path <- tools::file_path_sans_ext(file$metadata$.path)
-    file$metadata$.path <- paste0(path, ".", tools::file_ext(out))
+      # Render with rmarkdown
+      out <- rmarkdown::render(tmp_in, NULL, quiet = TRUE,
+        output_options = list(self_contained = FALSE))
+      on.exit(unlink(out), add = TRUE)
 
-    file
+      # Update file object
+      file$contents <- read_file(out)
+      path <- tools::file_path_sans_ext(file$metadata$.path)
+      file$metadata$.path <- paste0(path, ".", tools::file_ext(out))
+
+      file
+    })
+
+    compact(files)
   }
 
   plugin_with_init("rmarkdown", init, process)

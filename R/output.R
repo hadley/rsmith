@@ -17,7 +17,7 @@ build <- function(rsmith) {
 
   for (plugin in rsmith$plugins) {
     rsmith <- plugin$init(rsmith)
-    files <- compact(lapply(files, plugin$process))
+    files <- plugin$process(files)
   }
 
   write(rsmith, files)
@@ -30,7 +30,7 @@ preview <- function(rsmith) {
 
   for (plugin in rsmith$plugins) {
     rsmith <- plugin$init(rsmith)
-    files <- compact(lapply(files, plugin$process))
+    files <- plugin$process(files)
   }
 
   for(file in files) {
@@ -54,7 +54,7 @@ watch <- function(rsmith, interval = 0.25) {
 
   for (plugin in rsmith$plugins) {
     rsmith <- plugin$init(rsmith)
-    files <- lapply(files, function(x) shiny::reactive(plugin$process(x)))
+    files <- shiny::reactive(plugin$process(files))
   }
 
   obs <- shiny::observe({
