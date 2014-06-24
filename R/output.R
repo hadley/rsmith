@@ -35,7 +35,7 @@ preview <- function(rsmith) {
 
   for(file in files) {
     message(file$metadata$.path)
-    cat(file$content, "\n", sep = "")
+    cat(rawToChar(file$content), "\n", sep = "")
   }
 }
 

@@ -34,7 +34,7 @@ load_templates <- function(path) {
   if (length(template_paths) == 0) {
     stop("No templates found", call. = FALSE)
   }
-  templates <- lapply(template_paths, read_file)
+  templates <- lapply(lapply(template_paths, read_file), rawToChar)
   names(templates) <- basename(template_paths)
 
   templates
@@ -49,12 +49,12 @@ render_template <- function(file, method, templates, global_metadata) {
   }
 
   metadata <- build_metadata(file, global_metadata)
-  method(template, metadata)
+  charToRaw(method(template, metadata))
 }
 
 build_metadata <- function(file, global) {
   metadata <- file$metadata
-  metadata$contents <- file$contents
+  metadata$contents <- rawToChar(file$contents)
   metadata[paste0("site.", names(global))] <- global
 
   metadata

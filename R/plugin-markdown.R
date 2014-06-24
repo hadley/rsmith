@@ -18,9 +18,10 @@ markdown <- function(pattern = "\\.md$") {
     files <- lapply(files, function(file) {
       if (!grepl(pattern, path(file))) return(file)
 
-      if (nzchar(file$contents)) {
-        html <- markdown::markdownToHTML(text = file$contents, fragment.only = TRUE)
-        file$contents <- html
+      contents <- rawToChar(file$contents)
+      if (nzchar(contents)) {
+        html <- markdown::markdownToHTML(text = contents, fragment.only = TRUE)
+        file$contents <- charToRaw(html)
       }
 
       path <- tools::file_path_sans_ext(file$metadata$.path)

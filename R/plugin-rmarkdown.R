@@ -32,7 +32,8 @@ rmarkdown <- function(pattern = "\\.Rmd$") {
       tmp_in <- tempfile(fileext=".Rmd")
       on.exit(unlink(tmp_in), add = TRUE)
       cat("---\n", yaml::as.yaml(metadata), "---\n\n", file = tmp_in, sep = "")
-      cat(file$contents, file = tmp_in, append = TRUE)
+      writeBin(file$contents, con <- file(tmp_in, open="w+b"))
+      close(con)
 
       # Render with rmarkdown
       out <- rmarkdown::render(tmp_in, NULL, quiet = TRUE,

@@ -23,7 +23,8 @@ write_if_different <- function(path, contents) {
   message("Writing ", path)
 
   name <- basename(path)
-  writeLines(contents, path)
+  writeBin(contents, con <- file(path, open="wb"))
+  close(con)
 
   invisible(TRUE)
 }
