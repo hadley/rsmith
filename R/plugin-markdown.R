@@ -14,7 +14,7 @@ markdown <- function(pattern = "\\.md$") {
     stop("Please install the markdown package", call. = FALSE)
   }
 
-  plugin("markdown", function(files) {
+  plugin("markdown", function(files, rsmith) {
     files <- lapply(files, function(file) {
       if (!grepl(pattern, path(file))) return(file)
 
@@ -30,6 +30,6 @@ markdown <- function(pattern = "\\.md$") {
       file
     })
 
-    compact(files)
+    list(files=compact(files), rsmith=rsmith)
   })
 }

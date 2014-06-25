@@ -16,8 +16,9 @@ build <- function(rsmith) {
   files <- read_src(rsmith, read_file_with_metadata, quiet = TRUE)
 
   for (plugin in rsmith$plugins) {
-    rsmith <- plugin$init(rsmith)
-    files <- plugin$process(files)
+    tmp <- plugin$process(files=files, rsmith=rsmith)
+    rsmith <- tmp$rsmith
+    files <- tmp$files
   }
 
   write(rsmith, files)
@@ -29,8 +30,9 @@ preview <- function(rsmith) {
   files <- read_src(rsmith, read_file_with_metadata, quiet = TRUE)
 
   for (plugin in rsmith$plugins) {
-    rsmith <- plugin$init(rsmith)
-    files <- plugin$process(files)
+    tmp <- plugin$process(files=files, rsmith=rsmith)
+    rsmith <- tmp$rsmith
+    files <- tmp$files
   }
 
   for(file in files) {
@@ -52,10 +54,13 @@ watch <- function(rsmith, interval = 0.25) {
 
   files <- read_src(rsmith, reactive_file_with_metadata)
 
-  for (plugin in rsmith$plugins) {
-    rsmith <- plugin$init(rsmith)
-    files <- shiny::reactive(plugin$process(files))
-  }
+  shiny::reactive({
+    for (plugin in rsmith$plugins) {
+      tmp <- plugin$process(files=files, rsmith=rsmith)
+      rsmith <- tmp$rsmith
+      files <- tmp$files
+    }
+  })
 
   obs <- shiny::observe({
     output <- lapply(files, function(r) r())

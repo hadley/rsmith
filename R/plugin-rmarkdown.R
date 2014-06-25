@@ -28,8 +28,9 @@ rmarkdown <- function(pattern = "\\.Rmd$") {
     rsmith
   }
 
-  process <- function(files) {
+  process <- function(files, rsmith) {
 
+    init(rsmith)
 
     tmp_dir <- tempfile()
     dir.create(tmp_dir)
@@ -73,8 +74,9 @@ rmarkdown <- function(pattern = "\\.Rmd$") {
 
     # Plus the lib files
     lib_files <- read_all_files("lib")
-    c(files, lib_files)
+
+    list(files=c(files, lib_files), rsmith=rsmith)
   }
 
-  plugin_with_init("rmarkdown", init, process)
+  plugin("rmarkdown", process)
 }
