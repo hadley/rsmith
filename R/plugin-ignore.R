@@ -11,13 +11,13 @@
 #' static_site %>% use(ignore_files("first")) %>% preview()
 #' static_site %>% use(ignore_files("post")) %>% preview()
 ignore_files <- function(pattern, ...) {
-  plugin("ignore_files", function(files) {
+  plugin("ignore_files", function(files, rsmith) {
     files <- lapply(files, function(file) {
       if (grepl(pattern, file$metadata$.path, ...)) return()
       file
     })
 
-    compact(files)
+    list(files = compact(files), rsmith = rsmith)
   })
 }
 
@@ -32,12 +32,12 @@ ignore_files <- function(pattern, ...) {
 #' static_site <- rsmith_demo("static-site")
 #' static_site %>% use(ignore_drafts()) %>% preview()
 ignore_drafts <- function() {
-  plugin("ignore_drafts", function(files) {
+  plugin("ignore_drafts", function(files, rsmith) {
     files <- lapply(files, function(file) {
       if (isTRUE(file$metadata$draft)) return()
       file
     })
 
-    compact(files)
+    list(files = compact(files), rsmith = rsmith)
   })
 }

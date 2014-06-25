@@ -21,7 +21,15 @@ rmarkdown <- function(pattern = "\\.Rmd$") {
     rsmith
   }
 
-  process <- function(files) {
+  process <- function(files, rsmith) {
+
+    init(rsmith)
+
+    tmp_dir <- tempfile()
+    dir.create(tmp_dir)
+    on.exit(unlink(tmp_dir, recursive = TRUE), add = TRUE)
+    old <- setwd(tmp_dir)
+    on.exit(setwd(old), add = TRUE)
 
     files <- lapply(files, function(file) {
       if (!grepl(pattern, path(file))) return(file)
@@ -47,8 +55,8 @@ rmarkdown <- function(pattern = "\\.Rmd$") {
       file
     })
 
-    compact(files)
+    list(files = compact(files), rsmith = rsmith)
   }
 
-  plugin_with_init("rmarkdown", init, process)
+  plugin("rmarkdown", process)
 }

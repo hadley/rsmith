@@ -14,7 +14,8 @@ template_plugin <- function(package, render, pattern = "\\.R?md$",
 
     rsmith
   }
-  process <- function(files) {
+  process <- function(files, rsmith) {
+    init(rsmith)
     files <- lapply(files, function(file) {
       if (!grepl(pattern, path(file))) return(file)
       if (is.null(file$metadata$template)) return(file)
@@ -23,10 +24,10 @@ template_plugin <- function(package, render, pattern = "\\.R?md$",
       file$template <- NULL
       file
     })
-    compact(files)
+    list(files = compact(files), rsmith = rsmith)
   }
 
-  plugin_with_init(package, init, process)
+  plugin(package, process)
 }
 
 load_templates <- function(path) {
