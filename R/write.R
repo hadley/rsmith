@@ -11,6 +11,8 @@ write <- function(rsmith, files, quiet = FALSE) {
   setwd(dest)
 
   for (file in files) {
+    file_dir <- dirname(file$metadata$.path)
+    if (!file.exists(file_dir)) { dir.create(file_dir, recursive = TRUE) }
     write_if_different(file$metadata$.path, file$contents)
   }
 
@@ -23,7 +25,8 @@ write_if_different <- function(path, contents) {
   message("Writing ", path)
 
   name <- basename(path)
-  writeLines(contents, path)
+  writeBin(contents, con <- file(path, open="wb"))
+  close(con)
 
   invisible(TRUE)
 }

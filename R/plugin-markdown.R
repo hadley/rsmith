@@ -14,17 +14,22 @@ markdown <- function(pattern = "\\.md$") {
     stop("Please install the markdown package", call. = FALSE)
   }
 
-  plugin("markdown", function(file) {
-    if (!grepl(pattern, path(file))) return(file)
+  plugin("markdown", function(files, rsmith) {
+    files <- lapply(files, function(file) {
+      if (!grepl(pattern, path(file))) return(file)
 
-    if (nzchar(file$contents)) {
-      html <- markdown::markdownToHTML(text = file$contents, fragment.only = TRUE)
-      file$contents <- html
-    }
+      contents <- rawToChar(file$contents)
+      if (nzchar(contents)) {
+        html <- markdown::markdownToHTML(text = contents, fragment.only = TRUE)
+        file$contents <- charToRaw(html)
+      }
 
-    path <- tools::file_path_sans_ext(file$metadata$.path)
-    file$metadata$.path <- paste0(path, ".html")
+      path <- tools::file_path_sans_ext(file$metadata$.path)
+      file$metadata$.path <- paste0(path, ".html")
 
-    file
+      file
+    })
+
+    list(files=compact(files), rsmith=rsmith)
   })
 }

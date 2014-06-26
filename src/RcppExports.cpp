@@ -6,14 +6,14 @@
 using namespace Rcpp;
 
 // read_file
-CharacterVector read_file(std::string path);
+RawVector read_file(std::string path);
 RcppExport SEXP rsmith_read_file(SEXP pathSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< std::string >::type path(pathSEXP );
-        CharacterVector __result = read_file(path);
+        RawVector __result = read_file(path);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

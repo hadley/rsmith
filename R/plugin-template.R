@@ -14,16 +14,20 @@ template_plugin <- function(package, render, pattern = "\\.R?md$",
 
     rsmith
   }
-  process <- function(file) {
-    if (!grepl(pattern, path(file))) return(file)
-    if (is.null(file$metadata$template)) return(file)
+  process <- function(files, rsmith) {
+    init(rsmith)
+    files <- lapply(files, function(file) {
+      if (!grepl(pattern, path(file))) return(file)
+      if (is.null(file$metadata$template)) return(file)
 
-    file$contents <- render_template(file, render, templates, global_metadata)
-    file$template <- NULL
-    file
+      file$contents <- render_template(file, render, templates, global_metadata)
+      file$template <- NULL
+      file
+    })
+    list(files=compact(files), rsmith=rsmith)
   }
 
-  plugin_with_init(package, init, process)
+  plugin(package, process)
 }
 
 load_templates <- function(path) {
@@ -31,7 +35,7 @@ load_templates <- function(path) {
   if (length(template_paths) == 0) {
     stop("No templates found", call. = FALSE)
   }
-  templates <- lapply(template_paths, read_file)
+  templates <- lapply(lapply(template_paths, read_file), rawToChar)
   names(templates) <- basename(template_paths)
 
   templates
@@ -46,12 +50,12 @@ render_template <- function(file, method, templates, global_metadata) {
   }
 
   metadata <- build_metadata(file, global_metadata)
-  method(template, metadata)
+  charToRaw(method(template, metadata))
 }
 
 build_metadata <- function(file, global) {
   metadata <- file$metadata
-  metadata$contents <- file$contents
+  metadata$contents <- rawToChar(file$contents)
   metadata[paste0("site.", names(global))] <- global
 
   metadata

@@ -17,16 +17,9 @@ use <- function(rsmith, plugin) {
 #'
 #' @param name of the plugin
 #' @param process function called to process each file
-#' @param init function called once with site metadata
-#' @export
+#' #' @export
 plugin <- function(name, process) {
-  plugin_with_init(name, function(x) x, process)
-}
-
-#' @rdname plugin
-#' @export
-plugin_with_init <- function(name, init, process) {
-  structure(list(name = name, init = init, process = process),
+  structure(list(name = name, process = process),
     class = "rsmith_plugin")
 }
 

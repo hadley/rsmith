@@ -14,10 +14,11 @@ read_file_with_metadata <- function(path, quiet = FALSE) {
     metadata <- list()
     contents <- text
   } else {
+    text <- rawToChar(text)
     yaml <- substr(text, yaml_loc[1, 2], yaml_loc[2, 1])
     metadata <- yaml::yaml.load(yaml)
 
-    contents <- substr(text, yaml_loc[2, 2] + 1, nchar(text))
+    contents <- charToRaw(substr(text, yaml_loc[2, 2] + 1, nchar(text)))
   }
 
   metadata$.path <- path
@@ -27,8 +28,12 @@ read_file_with_metadata <- function(path, quiet = FALSE) {
 # Has yaml metadata if first line if starts with "---\n"
 # and has another \n---\n in file.
 locate_metadata <- function(text) {
-  stopifnot(is.character(text), length(text) == 1, !is.na(text))
+  stopifnot(is.raw(text), !is.na(text))
 
+  # Binary file, most probably
+  if (any(text == 0)) return(NULL)
+
+  text <- rawToChar(text)
   yaml_start <- locate(text, "^---\n")
   if (is.null(yaml_start)) return(NULL)
 
@@ -74,7 +79,7 @@ rsmith_file <- function(metadata, contents) {
 print.rsmith_file <- function(x, ...) {
   cat("<rsmith_file>\n")
   print_metadata(x$metadata)
-  cat("Contents: ", nchar(x$contents, type = "bytes"), " bytes\n", sep = "")
+  cat("Contents: ", length(x$contents), " bytes\n", sep = "")
 }
 
 path <- function(x) {
