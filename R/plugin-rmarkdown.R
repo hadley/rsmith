@@ -21,29 +21,42 @@ rmarkdown <- function(pattern = "\\.Rmd$") {
     rsmith
   }
 
-  process <- function(file) {
-    if (!grepl(pattern, path(file))) return(file)
+  process <- function(files, rsmith) {
 
-    metadata <- modifyList(global, file$metadata)
+    init(rsmith)
 
-    # Save file to temporary location
-    tmp_in <- tempfile()
-    on.exit(unlink(tmp_in), add = TRUE)
-    cat("---\n", yaml::as.yaml(metadata), "---\n\n", file = tmp_in, sep = "")
-    cat(file$contents, file = tmp_in, append = TRUE)
+    tmp_dir <- tempfile()
+    dir.create(tmp_dir)
+    on.exit(unlink(tmp_dir, recursive = TRUE), add = TRUE)
+    old <- setwd(tmp_dir)
+    on.exit(setwd(old), add = TRUE)
 
-    # Render with rmarkdown
-    out <- rmarkdown::render(tmp_in, NULL, quiet = TRUE,
-      output_options = list(self_contained = FALSE))
-    on.exit(unlink(out), add = TRUE)
+    files <- lapply(files, function(file) {
+      if (!grepl(pattern, path(file))) return(file)
 
-    # Update file object
-    file$contents <- read_file(out)
-    path <- tools::file_path_sans_ext(file$metadata$.path)
-    file$metadata$.path <- paste0(path, ".", tools::file_ext(out))
+      metadata <- modifyList(global, file$metadata)
 
-    file
+      # Save file to temporary location
+      tmp_in <- tempfile(fileext=".Rmd")
+      on.exit(unlink(tmp_in), add = TRUE)
+      cat("---\n", yaml::as.yaml(metadata), "---\n\n", file = tmp_in, sep = "")
+      cat(file$contents, file = tmp_in, append = TRUE)
+
+      # Render with rmarkdown
+      out <- rmarkdown::render(tmp_in, NULL, quiet = TRUE,
+        output_options = list(self_contained = FALSE))
+      on.exit(unlink(out), add = TRUE)
+
+      # Update file object
+      file$contents <- read_file(out)
+      path <- tools::file_path_sans_ext(file$metadata$.path)
+      file$metadata$.path <- paste0(path, ".", tools::file_ext(out))
+
+      file
+    })
+
+    list(files = compact(files), rsmith = rsmith)
   }
 
-  plugin_with_init("rmarkdown", init, process)
+  plugin("rmarkdown", process)
 }
