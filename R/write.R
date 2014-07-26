@@ -23,15 +23,18 @@ write_if_different <- function(path, contents) {
   message("Writing ", path)
 
   name <- basename(path)
-  writeLines(contents, path)
+  if (is.raw(contents)) {
+    writeBin(contents, con <- file(path, open = "wb"))
+    close(con)
+  } else {
+    writeLines(contents, path, sep = "")
+  }
 
   invisible(TRUE)
 }
 
 same_contents <- function(path, contents) {
   if (!file.exists(path)) return(FALSE)
-
-  contents <- paste0(contents, "\n")
 
   text_hash <- digest::digest(contents, serialize = FALSE)
   file_hash <- digest::digest(file = path)
