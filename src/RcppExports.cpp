@@ -5,15 +5,15 @@
 
 using namespace Rcpp;
 
-// read_file
-CharacterVector read_file(std::string path);
-RcppExport SEXP rsmith_read_file(SEXP pathSEXP) {
+// read_file_raw
+RawVector read_file_raw(std::string path);
+RcppExport SEXP rsmith_read_file_raw(SEXP pathSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< std::string >::type path(pathSEXP );
-        CharacterVector __result = read_file(path);
+        RawVector __result = read_file_raw(path);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

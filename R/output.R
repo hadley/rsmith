@@ -35,7 +35,11 @@ preview <- function(rsmith) {
 
   for(file in files) {
     message(file$metadata$.path)
-    cat(file$content, "\n", sep = "")
+    if (is_binary(file)) {
+      cat("<binary file>\n")
+    } else {
+      cat(file$content, "\n", sep = "")
+    }
   }
 }
 

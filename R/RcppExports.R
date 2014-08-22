@@ -3,7 +3,7 @@
 
 #' @importFrom Rcpp evalCpp
 #' @useDynLib rsmith
-read_file <- function(path) {
-    .Call('rsmith_read_file', PACKAGE = 'rsmith', path)
+read_file_raw <- function(path) {
+    .Call('rsmith_read_file_raw', PACKAGE = 'rsmith', path)
 }
 

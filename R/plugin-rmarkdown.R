@@ -1,7 +1,8 @@
 #' Convert rmarkdown to html
 #'
 #' Use the \pkg{rmarkdown} package. You can set options that apply to all
-#' files in the global metadata field \code{rmarkdown}.
+#' files in the global metadata field \code{rmarkdown}. The plugin ignores
+#' binary files.
 #'
 #' @param pattern Regular expression used to identify Rmarkdown files.
 #' @export
@@ -22,7 +23,7 @@ rmarkdown <- function(pattern = "\\.Rmd$") {
   }
 
   process <- function(file) {
-    if (!grepl(pattern, path(file))) return(file)
+    if (!grepl(pattern, path(file)) || is_binary(file)) return(file)
 
     metadata <- modifyList(global, file$metadata)
 

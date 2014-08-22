@@ -1,7 +1,7 @@
 #' Convert markdown to html
 #'
 #' Use the \pkg{markdown} package. Markdown inputs are converted to html
-#' and their extension changed to \code{.html}.
+#' and their extension changed to \code{.html}. Binary files are ignored.
 #'
 #' @param pattern Regular expression used to identify markdown files.
 #' @export
@@ -15,7 +15,7 @@ markdown <- function(pattern = "\\.md$") {
   }
 
   plugin("markdown", function(file) {
-    if (!grepl(pattern, path(file))) return(file)
+    if (!grepl(pattern, path(file)) || is_binary(file)) return(file)
 
     if (nzchar(file$contents)) {
       html <- markdown::markdownToHTML(text = file$contents, fragment.only = TRUE)

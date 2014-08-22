@@ -1,3 +1,14 @@
+read_file <- function(path) {
+  contents <- read_file_raw(path)
+  if (is_binary_raw(contents)) {
+    contents
+  } else {
+    text <- rawToChar(contents)
+    Encoding(text) <- "UTF-8"
+    text
+  }
+}
+
 read_file_with_metadata <- function(path, quiet = FALSE) {
   if (!file.exists(path)) {
     warning(path, " does not exist", call. = FALSE)
@@ -8,16 +19,17 @@ read_file_with_metadata <- function(path, quiet = FALSE) {
   }
 
   text <- read_file(path)
-  yaml_loc <- locate_metadata(text)
 
-  if (is.null(yaml_loc)) {
-    metadata <- list()
-    contents <- text
-  } else {
-    yaml <- substr(text, yaml_loc[1, 2], yaml_loc[2, 1])
-    metadata <- yaml::yaml.load(yaml)
-
-    contents <- substr(text, yaml_loc[2, 2] + 1, nchar(text))
+  if (!is.raw(text)) {
+    yaml_loc <- locate_metadata(text)
+    if (is.null(yaml_loc)) {
+      metadata <- list()
+      contents <- text
+    } else {
+      yaml <- substr(text, yaml_loc[1, 2], yaml_loc[2, 1])
+      metadata <- yaml::yaml.load(yaml)
+      contents <- substr(text, yaml_loc[2, 2] + 1, nchar(text))
+    }
   }
 
   metadata$.path <- path
@@ -74,9 +86,25 @@ rsmith_file <- function(metadata, contents) {
 print.rsmith_file <- function(x, ...) {
   cat("<rsmith_file>\n")
   print_metadata(x$metadata)
-  cat("Contents: ", nchar(x$contents, type = "bytes"), " bytes\n", sep = "")
+  cat("Contents: ", cont_len(x$contents), " bytes\n", sep = "")
 }
 
 path <- function(x) {
   x$metadata$.path
+}
+
+is_binary_raw <- function(raw) {
+  any(raw == 0)
+}
+
+is_binary <- function(x) {
+  is.raw(x$contents)
+}
+
+cont_len <- function(x) {
+  if (is_binary(x)) {
+    length(x$contents)
+  } else {
+    nchar(x$contents)
+  }
 }
